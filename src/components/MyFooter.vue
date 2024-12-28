@@ -1,45 +1,51 @@
 <template>
     <el-row>
-        <el-col :span="5"><strong>{{musicName}}</strong></el-col>
+        <!-- 当前播放的音乐名称 -->
+        <el-col :span="5"><strong>{{ musicName }}</strong></el-col>
+        <!-- 上一曲按钮 -->
         <el-col :span="1">
             <el-button type="primary" icon="el-icon-caret-left" circle @click="handlePreNext(-1)"></el-button>
         </el-col>
+        <!-- 播放/暂停按钮 -->
         <el-col :span="1">
-            <el-button type="primary"
-                :icon="isPlaying? 'el-icon-video-pause': 'el-icon-video-play'"
+            <el-button type="primary" :icon="isPlaying ? 'el-icon-video-pause' : 'el-icon-video-play'"
                 @click="handlePlaying" circle></el-button>
         </el-col>
+        <!-- 播放/暂停按钮 -->
         <el-col :span="1">
             <el-button type="primary" icon="el-icon-caret-right" circle @click="handlePreNext(1)"></el-button>
         </el-col>
     </el-row>
 </template>
 <script>
-import {mapActions, mapGetters} from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
-    computed:{
+    computed: {
         ...mapGetters(['isPlaying', 'index', 'localSongs', 'playingSongs']),
-        musicName(){// 当前播放音乐的名字
-            if(this.playingSongs.length===0) return '未知'
+        musicName() {// 当前播放音乐的名字
+            if (this.playingSongs.length === 0) return '未知'
             return this.playingSongs[this.index].name
         }
     },
-    methods:{
+    methods: {
         ...mapActions(['handlePlaying', 'handleClickSong']),
-        handlePreNext(step){
-            const index = this.index+step
-            if(index>=0&&index<this.playingSongs.length){
-                this.handleClickSong({index, audio:this.playingSongs[index].audio, name:this.playingSongs[this.index].name})
+        handlePreNext(step) {
+            const index = this.index + step
+            if (index >= 0 && index < this.playingSongs.length) {
+                this.handleClickSong({ index, audio: this.playingSongs[index].audio, name: this.playingSongs[this.index].name })
             }
         }
     }
 }
 </script>
 <style>
-    .el-button, .el-button--primary, .is-circle{
-        font-size: 1em;
-    }
-    .el-row{
-        padding: 3em;
-    }
+.el-button,
+.el-button--primary,
+.is-circle {
+    font-size: 1em;
+}
+
+.el-row {
+    padding: 3em;
+}
 </style>
